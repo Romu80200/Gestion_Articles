@@ -1,0 +1,69 @@
+/*-----QTabWidget-----*/
+QTabWidget {
+    background-color: turquoise;
+}
+QTabWidget::pane {
+    border: 1px solid #31363B;
+    padding: 0px;
+    margin:  0px;
+}
+QTabBar {
+    border: 0px solid #31363B;
+    color: gray;
+    font-weight: bold;
+    font-style: italic;
+}
+QTabBar::tab:top:selected {
+    color: blue;
+    background-color: lightskyblue;
+    font-style: normal;
+}
+
+
+/*--------------------Tab Create article-------------------*/
+
+/*-----QLabel-----*/
+QLabel#lbl_information_article {
+    font-weight: bold;
+    font-style: italic;
+    text-decoration: underline;
+}
+QLabel#lbl_article_number {
+    background-color: salmon;
+    color: blue;
+    font-weight: bold;
+    font-size: 11pt;
+    border-bottom-left-radius: 5;
+    border-bottom-right-radius: 5;
+    border-top-left-radius: 25;
+    border-top-right-radius: 25;
+    border: 3 solid red;
+}
+QLabel#lbl_image_file {
+    border: 1px solid gray;
+    color: gray;
+}
+QLabel#lbl_frame_create {
+    border: 1px solid gray;
+    font-size: 12pt;
+    font-weight: bold;
+}
+
+QPushButton#btn_search_file {
+    font-weight: bold;
+    font-style: italic;
+    color: darkgray;
+}
+
+QProgressBar#prgbar_create_article {
+    background-color: gold;
+    border: 3 solid red;
+    border-radius: 5px;
+}
+QLabel#lbl_title_create {
+    font-size: 18pt;
+    background-color: blue;
+    color: white;
+    font-weight: bold;
+    padding: 15px;
+}
