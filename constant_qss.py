@@ -42,6 +42,7 @@ BTN_CREATE_ARTICLE_OK = BTN_CREATE_ARTICLE + """
     background-color: lime;
     color: green;
     border-color: green;}
+    
     QPushButton:pressed {
     border-style: inset;
     }

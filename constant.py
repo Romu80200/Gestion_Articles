@@ -2,7 +2,7 @@
 
 MESSAGE_STATUS_INFO = "INFO | Etape #{} : {}"
 
-MESSAGE_STATUS_INFO_OK = "INFO | Etapes franchies avec succés : Vérifier les informations avant de Créer l'Article"
+MESSAGE_STATUS_INFO_OK = "INFO | Etapes franchies avec succés 👍😎 : Vérifier les informations avant de Créer l'Article"
 
 MESSAGE_STATUS_WARNING_OK = "WARNING | CMS prêt à être créer : Besoin du PASSWORD pour valider la création du CMS"
 

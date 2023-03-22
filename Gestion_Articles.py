@@ -1,5 +1,15 @@
 # -*- coding: utf-8 -*-
 # Version Python 3.7.6
+
+"""
+Application to manage item codes in a store
+Possible actions:
+    - Search for codes
+    - Create codes (10 digits required) only possible with login
+    - Modify codes (the system does not allow deleting codes) with login
+    - Administration mode (database modification, user management ...)
+"""
+
 from qtpy.QtWidgets import QApplication, QWidget, QTabWidget
 from qtpy.QtWidgets import QVBoxLayout
 from qtpy.QtGui import QFont, QIcon
@@ -24,7 +34,7 @@ class MainWindow(QWidget):
         self.tab_search = QWidget()
         self.tab_create = TabCreate()  # QWidget()
         self.tab_modify = QWidget()
-        self.tab_overview = QWidget()
+        self.tab_overview = QWidget()  # Maybe
         self.tab_admin = QWidget()
         # Add Tab
         self.tab_widget.addTab(self.tab_home, "Accueil")
