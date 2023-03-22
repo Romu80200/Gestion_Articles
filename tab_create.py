@@ -59,7 +59,7 @@ class TabCreate(QWidget):
         self.lbl_image_product.setObjectName("lbl_information_article")
         self.lbl_image_file = QLabel()
         self.lbl_image_file.setObjectName("lbl_image_file")
-        self.lbl_image_file.setText("Facultatif")
+        self.lbl_image_file.setText("Non disponible pour le moment")
         self.lbl_image_file.setMaximumHeight(22)
         self.cbb_machine = QComboBox()
         self.cbb_machine.setEditable(False)
@@ -73,9 +73,14 @@ class TabCreate(QWidget):
         self.cbb_element.currentTextChanged.connect(self.cbb_element_changed)
         self.le_designation = QLineEdit()  # Multiligne
         # self.le_designation.setMaximumHeight(75)
-        self.le_designation.editingFinished.connect(self.le_designation_changed)
+        self.le_designation.editingFinished.connect(self.le_designation_quit)
+        self.le_designation.textChanged.connect(self.le_designation_changed)
         self.le_reference = QLineEdit()
+        self.le_reference.editingFinished.connect(self.le_reference_quit)
+        self.le_reference.textChanged.connect(self.le_reference_changed)
         self.le_supplier = QLineEdit()
+        self.le_supplier.editingFinished.connect(self.le_supplier_quit)
+        self.le_supplier.textChanged.connect(self.le_supplier_changed)
         self.le_article_placed_on_machine = QLineEdit()
         self.le_article_placed_on_machine.setPlaceholderText("Facultatif")
         self.btn_search_file = QPushButton()
@@ -169,12 +174,39 @@ class TabCreate(QWidget):
         self.actions_when_formular_changed(step=3, current_text=self.cbb_element.currentText())
 
     def le_designation_changed(self):
-        print("LineEdit Exit")
+        if self.le_designation.text() == "":
+            self.le_designation_quit()
+
+    def le_reference_changed(self):
+        if self.le_reference.text() == "":
+            self.le_reference_quit()
+
+    def le_supplier_changed(self):
+        if self.le_supplier.text() == "":
+            self.le_supplier_quit()
+
+    def le_designation_quit(self):
+        # Todo : create function
+        print("LineEdit Designation Exit")
+        self.actions_when_formular_changed(step=4, current_text=self.le_designation.text())
+
+    def le_reference_quit(self):
+        # Todo : create function
+        print("LineEdit Reference Exit")
+        self.actions_when_formular_changed(step=5, current_text=self.le_reference.text())
+
+    def le_supplier_quit(self):
+        # Todo : create function
+        print("LineEdit Supplier Exit")
+        self.actions_when_formular_changed(step=6, current_text=self.le_supplier.text())
 
     def actions_when_formular_changed(self, step, current_text):
         """list of functions to execute when formular changed"""
-        self.actions_when_cbb_create_tab_changed(step, current_text)
-        self.assign_create_tab_number()
+        if step in [1, 2, 3]:
+            self.actions_when_cbb_create_tab_changed(step, current_text)
+            self.assign_create_tab_number()
+        # define if step is validated
+        self.step_create_code_validated[step - 1] = False if current_text == "" else True
         self.update_create_tab_progress_bar()
         self.modify_create_tab_stylesheet()
         self.modify_create_tab_status_bar()
