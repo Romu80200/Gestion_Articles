@@ -15,6 +15,7 @@ from qtpy.QtWidgets import QVBoxLayout
 from qtpy.QtGui import QFont, QIcon
 
 from tab_create import TabCreate
+from tab_search import TabSearch
 
 
 class MainWindow(QWidget):
@@ -31,7 +32,7 @@ class MainWindow(QWidget):
         # Init Tab Screen
         self.tab_widget = QTabWidget()
         self.tab_home = QWidget()
-        self.tab_search = QWidget()
+        self.tab_search = TabSearch()  # QWidget()
         self.tab_create = TabCreate()  # QWidget()
         self.tab_modify = QWidget()
         self.tab_overview = QWidget()  # Maybe
