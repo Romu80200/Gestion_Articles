@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # Version Python 3.7.6
+
 from qtpy.QtWidgets import QWidget
 from qtpy.QtWidgets import QVBoxLayout, QGridLayout
 from qtpy.QtWidgets import QPushButton, QLabel, QFrame, QLineEdit, QComboBox, QProgressBar, QStatusBar
@@ -13,7 +14,9 @@ import config_articles
 class TabCreate(QWidget):
     def __init__(self):
         super().__init__()
-        self.step_create_code_validated = [False] * 6
+        self.number_combobox_required = 3
+        self.number_element_required_to_create_article = len(constant.DICT_STEP)
+        self.step_create_code_validated = [False] * len(constant.DICT_STEP)
 
         self.init_tab_create_widgets()
         self.init_tab_create_widgets_property()
@@ -26,6 +29,12 @@ class TabCreate(QWidget):
         self.frm_create_article = QFrame()
         self.frm_create_article.layout = QGridLayout(self.frm_create_article)
         self.lbl_frame_create = QLabel()
+        self.lbl_required_1 = QLabel()
+        self.lbl_required_2 = QLabel()
+        self.lbl_required_3 = QLabel()
+        self.lbl_required_4 = QLabel()
+        self.lbl_required_5 = QLabel()
+        self.lbl_required_6 = QLabel()
         self.lbl_machine = QLabel()
         self.lbl_family = QLabel()
         self.lbl_element = QLabel()
@@ -49,30 +58,38 @@ class TabCreate(QWidget):
         self.prgbar_create_article = QProgressBar()
         self.sb_create_info = QStatusBar()
         self.sb_create_warning = QStatusBar()
-        self.frm_create_article.layout.addWidget(self.lbl_frame_create, 0, 0, 1, 6)
+        self.sb_required = QStatusBar()
+        self.frm_create_article.layout.addWidget(self.lbl_frame_create, 0, 0, 1, 7)
         self.frm_create_article.layout.addWidget(self.lbl_machine, 1, 0, 1, 1)
-        self.frm_create_article.layout.addWidget(self.cbb_machine, 1, 1, 1, 4)
-        self.frm_create_article.layout.addWidget(self.prgbar_create_article, 1, 5, 6, 1)
+        self.frm_create_article.layout.addWidget(self.lbl_required_1, 1, 1, 1, 1)
+        self.frm_create_article.layout.addWidget(self.cbb_machine, 1, 2, 1, 4)
+        self.frm_create_article.layout.addWidget(self.prgbar_create_article, 1, 6, 6, 1)
         self.frm_create_article.layout.addWidget(self.lbl_family, 2, 0, 1, 1)
-        self.frm_create_article.layout.addWidget(self.cbb_family, 2, 1, 1, 4)
+        self.frm_create_article.layout.addWidget(self.lbl_required_2, 2, 1, 1, 1)
+        self.frm_create_article.layout.addWidget(self.cbb_family, 2, 2, 1, 4)
         self.frm_create_article.layout.addWidget(self.lbl_element, 3, 0, 1, 1)
-        self.frm_create_article.layout.addWidget(self.cbb_element, 3, 1, 1, 4)
+        self.frm_create_article.layout.addWidget(self.lbl_required_3, 3, 1, 1, 1)
+        self.frm_create_article.layout.addWidget(self.cbb_element, 3, 2, 1, 4)
         self.frm_create_article.layout.addWidget(self.lbl_designation, 4, 0, 1, 1)
-        self.frm_create_article.layout.addWidget(self.le_designation, 4, 1, 1, 4)
+        self.frm_create_article.layout.addWidget(self.lbl_required_4, 4, 1, 1, 1)
+        self.frm_create_article.layout.addWidget(self.le_designation, 4, 2, 1, 4)
         self.frm_create_article.layout.addWidget(self.lbl_reference, 5, 0, 1, 1)
-        self.frm_create_article.layout.addWidget(self.le_reference, 5, 1, 1, 4)
+        self.frm_create_article.layout.addWidget(self.lbl_required_5, 5, 1, 1, 1)
+        self.frm_create_article.layout.addWidget(self.le_reference, 5, 2, 1, 4)
         self.frm_create_article.layout.addWidget(self.lbl_supplier, 6, 0, 1, 1)
-        self.frm_create_article.layout.addWidget(self.le_supplier, 6, 1, 1, 4)
+        self.frm_create_article.layout.addWidget(self.lbl_required_6, 6, 1, 1, 1)
+        self.frm_create_article.layout.addWidget(self.le_supplier, 6, 2, 1, 4)
         self.frm_create_article.layout.addWidget(self.lbl_article_placed_on_machine, 7, 0, 1, 1)
-        self.frm_create_article.layout.addWidget(self.le_article_placed_on_machine, 7, 1, 1, 2)
+        self.frm_create_article.layout.addWidget(self.le_article_placed_on_machine, 7, 2, 1, 2)
+        self.frm_create_article.layout.addWidget(self.btn_search_file, 7, 4, 4, 3)
         self.frm_create_article.layout.addWidget(self.lbl_image_product, 8, 0, 1, 1)
-        self.frm_create_article.layout.addWidget(self.lbl_image_file, 8, 1, 1, 2)
-        self.frm_create_article.layout.addWidget(self.btn_search_file, 7, 3, 4, 3)
+        self.frm_create_article.layout.addWidget(self.lbl_image_file, 8, 2, 1, 2)
         self.frm_create_article.layout.addWidget(self.lbl_article_assigned, 9, 0, 1, 1)
-        self.frm_create_article.layout.addWidget(self.lbl_create_article_number, 9, 1, 1, 2)
-        self.frm_create_article.layout.addWidget(self.btn_create_article, 10, 1, 1, 2)
-        self.frm_create_article.layout.addWidget(self.sb_create_info, 11, 0, 1, 6)
-        self.frm_create_article.layout.addWidget(self.sb_create_warning, 12, 0, 1, 6)
+        self.frm_create_article.layout.addWidget(self.lbl_create_article_number, 9, 2, 1, 2)
+        self.frm_create_article.layout.addWidget(self.sb_required, 10, 0, 1, 1)
+        self.frm_create_article.layout.addWidget(self.btn_create_article, 10, 2, 1, 2)
+        self.frm_create_article.layout.addWidget(self.sb_create_info, 11, 0, 1, 7)
+        self.frm_create_article.layout.addWidget(self.sb_create_warning, 12, 0, 1, 7)
         self.main_layout.addWidget(self.lbl_title_create)
         self.main_layout.addWidget(self.frm_create_article)
         self.setLayout(self.main_layout)
@@ -88,24 +105,16 @@ class TabCreate(QWidget):
         self.lbl_frame_create.setObjectName("lbl_frame_create")
         self.lbl_frame_create.setMaximumHeight(50)
         self.lbl_frame_create.setAlignment(Qt.AlignCenter)
-        # lbl_machine
-        self.lbl_machine.setText("Choisir la Machine :")
-        self.lbl_machine.setObjectName("lbl_information_article")
-        # lbl_family
-        self.lbl_family.setText("Choisir la Famille :")
-        self.lbl_family.setObjectName("lbl_information_article")
-        # lbl_element
-        self.lbl_element.setText("Choisir une Catégorie :")
-        self.lbl_element.setObjectName("lbl_information_article")
-        # lbl_designation
-        self.lbl_designation.setText("Renseigner la Désignation :")
-        self.lbl_designation.setObjectName("lbl_information_article")
-        # lbl_reference
-        self.lbl_reference.setText("Renseigner la Référence :")
-        self.lbl_reference.setObjectName("lbl_information_article")
-        # lbl_supplier
-        self.lbl_supplier.setText("Renseigner le Fournisseur :")
-        self.lbl_supplier.setObjectName("lbl_information_article")
+        # setText & setObjectName for all lbl required
+        list_lbl_required = [self.lbl_required_1, self.lbl_required_2, self.lbl_required_3,
+                             self.lbl_required_4,self.lbl_required_5, self.lbl_required_6]
+        list_lbl_step_required = [self.lbl_machine, self.lbl_family, self.lbl_element,
+                                  self.lbl_designation, self.lbl_reference, self.lbl_supplier]
+        for key, value in constant.DICT_STEP.items():
+            list_lbl_step_required[key-1].setText(str(key) + " : " + value + " :")
+            list_lbl_step_required[key-1].setObjectName("lbl_information_article")
+            list_lbl_required[key-1].setText("👉")
+            list_lbl_required[key-1].setMaximumWidth(20)
         # lbl_article_placed_on_machine
         self.lbl_article_placed_on_machine.setText("Emplacement sur la Machine :")
         self.lbl_article_placed_on_machine.setObjectName("lbl_information_article")
@@ -149,6 +158,7 @@ class TabCreate(QWidget):
         # btn_create_article
         self.btn_create_article.setText("Créer Article")
         self.btn_create_article.setStyleSheet(constant_qss.BTN_CREATE_ARTICLE_NOK)
+        self.btn_create_article.setMinimumHeight(60)
         self.btn_create_article.setMaximumHeight(60)
         self.btn_create_article.setEnabled(False)
         # prgbar_create_article
@@ -157,6 +167,12 @@ class TabCreate(QWidget):
         self.prgbar_create_article.setOrientation(Qt.Vertical)
         self.prgbar_create_article.setInvertedAppearance(True)
         self.prgbar_create_article.setValue(0)
+        # sb_required
+        self.sb_required.setStyleSheet(constant_qss.SB_REQUIRED)
+        self.sb_required.setSizeGripEnabled(False)
+        self.sb_required.setMaximumHeight(30)
+        self.sb_required.setMaximumWidth(220)
+        self.sb_required.showMessage("👉 Zone Obligatoire à remplir")
         # sb_crete_info
         self.sb_create_info.setStyleSheet(constant_qss.SB_CREATE_INFO_NOK)
         self.sb_create_info.setSizeGripEnabled(False)
@@ -181,7 +197,7 @@ class TabCreate(QWidget):
         self.btn_create_article.released.connect(self.btn_create_article_cliked)
 
     def init_formular_create(self):
-        """initialize the formular at the beggining or after creation of code article"""
+        """initialize the formular at the beggining and after creation of code article"""
         self.cbb_machine.clear()
         self.cbb_family.clear()
         for key in config_articles.config["machine"].keys():
@@ -195,30 +211,33 @@ class TabCreate(QWidget):
         self.lbl_create_article_number.setText("*" * 10)
 
     def cbb_machine_changed(self):
-        """first step of creation of code article"""
+        """1st step of creation of code article"""
         self.actions_when_formular_changed(step=1, current_text=self.cbb_machine.currentText())
 
     def cbb_family_changed(self):
-        """second step of creation of code article"""
+        """2nd step of creation of code article"""
         self.cbb_element.clear()  # the element combobox depends on the family combobox
         self.actions_when_formular_changed(step=2, current_text=self.cbb_family.currentText())
 
     def cbb_element_changed(self):
-        """third step of creation of code article"""
+        """3rd step of creation of code article"""
         self.actions_when_formular_changed(step=3, current_text=self.cbb_element.currentText())
 
     def le_designation_changed(self):
+        """4th step of creation of code article"""
         self.actions_when_formular_changed(step=4, current_text=self.le_designation.text())
 
     def le_reference_changed(self):
+        """5th step of creation of code article"""
         self.actions_when_formular_changed(step=5, current_text=self.le_reference.text())
 
     def le_supplier_changed(self):
+        """6th step of creation of code article"""
         self.actions_when_formular_changed(step=6, current_text=self.le_supplier.text())
 
     def actions_when_formular_changed(self, step, current_text):
         """list of functions to execute when formular changed"""
-        if step in [1, 2, 3]:
+        if step in range(self.number_combobox_required + 1):
             self.actions_when_cbb_create_tab_changed(step, current_text)
             self.assign_create_tab_number()
         # define if step is validated
@@ -297,7 +316,8 @@ class TabCreate(QWidget):
             warning : new_max_number always contains 3 characters -> zfill(3)
         end : update the code article lbl_create_article_number with number_code
         """
-        if sum(self.step_create_code_validated[:3]) == 3:
+        number = self.number_combobox_required
+        if sum(self.step_create_code_validated[:number]) == number:
             max_number_found = self.search_max_number()
             new_max_number = max_number_found + 1
             new_max_number = str(new_max_number).zfill(3)
@@ -316,11 +336,13 @@ class TabCreate(QWidget):
 
     def update_create_tab_progress_bar(self):
         """modify progress bar of create tab"""
-        self.prgbar_create_article.setValue(round(sum(self.step_create_code_validated) * 100 / 6))
+        self.prgbar_create_article.setValue(
+            round(sum(self.step_create_code_validated) * 100 / len(constant.DICT_STEP))
+        )
 
     def modify_create_tab_stylesheet(self):
         """modify stylesheet lbl_create_article_number & btn_create_article if form is completed"""
-        if sum(self.step_create_code_validated) == 6:
+        if sum(self.step_create_code_validated) == len(constant.DICT_STEP):
             self.lbl_create_article_number.setStyleSheet(constant_qss.LBL_CREATE_ARTICLE_NUMBER_OK)
             self.btn_create_article.setStyleSheet(constant_qss.BTN_CREATE_ARTICLE_OK)
             self.btn_create_article.setEnabled(True)
@@ -331,16 +353,16 @@ class TabCreate(QWidget):
 
     def modify_create_tab_status_bar(self):
         """modify 2 status bar if form is completed"""
-        if sum(self.step_create_code_validated) == 6:
+        if sum(self.step_create_code_validated) == len(constant.DICT_STEP):
             self.sb_create_info.showMessage(constant.MESSAGE_STATUS_INFO_OK)
             self.sb_create_info.setStyleSheet(constant_qss.SB_CREATE_INFO_OK)
             self.sb_create_warning.showMessage(constant.MESSAGE_STATUS_WARNING_OK)
             self.sb_create_warning.setStyleSheet(constant_qss.SB_CREATE_WARNING_OK)
         else:
             # search first step which is not validated (False)
-            # Todo : Optimized if possible
-            for step, _value in enumerate(self.step_create_code_validated, start=1):
-                if not _value:
+            # Todo : to optimize if possible
+            for step, value in enumerate(self.step_create_code_validated, start=1):
+                if not value:
                     break
             self.sb_create_info.showMessage(constant.MESSAGE_STATUS_INFO.format(step, constant.DICT_STEP[step]))
             self.sb_create_info.setStyleSheet(constant_qss.SB_CREATE_INFO_NOK)
@@ -351,7 +373,7 @@ class TabCreate(QWidget):
         """fill the database with the various information transmitted via the form"""
         # Todo create function
         # Todo choice a DataBase
-        # begin : fill the DataBase
+        # begin : fill the DataBase with data in the formular
         # else : display a popup to confirm the creation of code article
         # end : clear the formular to create a new article if needed
         self.init_formular_create()

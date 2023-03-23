@@ -81,3 +81,13 @@ SB_CREATE_WARNING_NOK = SB_CREATE_WARNING + """
     background-color: salmon;
     color: midnightblue;
 """
+
+SB_REQUIRED = """
+    font-size: 10pt;
+    font-style: italic;
+    font-weight: bold;
+    border: 1px solid gray;
+    border-radius: 15;
+    background-color: white;
+    color: midnightblue;
+"""

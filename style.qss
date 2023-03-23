@@ -63,4 +63,5 @@ QProgressBar#prgbar_create_article {
     background-color: gold;
     border: 3 solid red;
     border-radius: 5px;
+    padding: 1px;
 }
