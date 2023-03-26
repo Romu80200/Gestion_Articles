@@ -312,7 +312,7 @@ class TabCreate(QWidget):
         assign the 3 last numbers of code article only if 3 first step are validated
 
         begin : search the biggest code which starts with 7 first characters of lbl_create_number
-        else : add 1 to the biggest code foundto complete the new code for the new article
+        else : add 1 to the biggest code found to complete the new code for the new article
             warning : new_max_number always contains 3 characters -> zfill(3)
         end : update the code article lbl_create_article_number with number_code
         """
