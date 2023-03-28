@@ -3,7 +3,7 @@
 
 from qtpy.QtWidgets import QWidget
 from qtpy.QtWidgets import QVBoxLayout, QGridLayout
-from qtpy.QtWidgets import QPushButton, QLabel, QFrame, QLineEdit, QComboBox, QProgressBar, QStatusBar
+from qtpy.QtWidgets import QPushButton, QLabel, QFrame, QLineEdit, QComboBox, QProgressBar, QStatusBar, QTextEdit
 from qtpy.QtCore import Qt
 
 import constant
@@ -101,13 +101,13 @@ class TabCreate(QWidget):
         self.lbl_title_create.setAlignment(Qt.AlignCenter)
         self.lbl_title_create.setMaximumHeight(50)
         # lbl_frame_create
-        self.lbl_frame_create.setText("Remplissez les zones suivantes")
+        self.lbl_frame_create.setText("Remplissez les étapes suivantes")
         self.lbl_frame_create.setObjectName("lbl_frame_create")
         self.lbl_frame_create.setMaximumHeight(50)
         self.lbl_frame_create.setAlignment(Qt.AlignCenter)
         # setText & setObjectName for all lbl required
         list_lbl_required = [self.lbl_required_1, self.lbl_required_2, self.lbl_required_3,
-                             self.lbl_required_4,self.lbl_required_5, self.lbl_required_6]
+                             self.lbl_required_4, self.lbl_required_5, self.lbl_required_6]
         list_lbl_step_required = [self.lbl_machine, self.lbl_family, self.lbl_element,
                                   self.lbl_designation, self.lbl_reference, self.lbl_supplier]
         for key, value in constant.DICT_STEP.items():
@@ -145,7 +145,8 @@ class TabCreate(QWidget):
         self.btn_search_file.setEnabled(False)
         self.btn_search_file.setObjectName("btn_search_file")
         self.btn_search_file.setText("Cliquez ici\npour sélectionner\nune image du produit\n\n(Facultatif)")
-        self.btn_search_file.setMaximumSize(300, 300)
+        self.btn_search_file.setMaximumWidth(300)
+        self.btn_search_file.setMaximumHeight(300)
         self.btn_search_file.setToolTip("Fonction non disponible pour le moment")
         # lbl_article_assigned
         self.lbl_article_assigned.setText("Code Article attribué :")
@@ -172,7 +173,7 @@ class TabCreate(QWidget):
         self.sb_required.setSizeGripEnabled(False)
         self.sb_required.setMaximumHeight(30)
         self.sb_required.setMaximumWidth(220)
-        self.sb_required.showMessage("👉 Zone Obligatoire à remplir")
+        self.sb_required.showMessage("👉 Etape Obligatoire à remplir")
         # sb_crete_info
         self.sb_create_info.setStyleSheet(constant_qss.SB_CREATE_INFO_NOK)
         self.sb_create_info.setSizeGripEnabled(False)
@@ -288,25 +289,6 @@ class TabCreate(QWidget):
                 for key in config_articles.config["element"][current_text].keys():
                     self.cbb_element.addItem(key)
 
-        # Todo : clear below old code if application ok
-        """below old code -> optimized: Maybe 😅
-        if cbb_current_text == "":
-            self.lbl_create_article_number.setText(
-                dict_code[step]["start_code"] + dict_code[step]["middle_code_nok"] + dict_code[step]["end_code"]
-            )
-            self.step_create_code_validated[step - 1] = False
-            if step == 2:
-                self.cbb_element.setEnabled(False)
-        else:
-            self.lbl_create_article_number.setText(
-                dict_code[step]["start_code"] + dict_code[step]["middle_code_ok"] + dict_code[step]["end_code"]
-            )
-            self.step_create_code_validated[step - 1] = True
-            if step == 2:
-                for key in config_articles.config["element"][cbb_current_text].keys():
-                    self.cbb_element.addItem(key)
-                self.cbb_element.setEnabled(True)"""
-
     def assign_create_tab_number(self):
         """
         assign the 3 last numbers of code article only if 3 first step are validated
@@ -360,10 +342,7 @@ class TabCreate(QWidget):
             self.sb_create_warning.setStyleSheet(constant_qss.SB_CREATE_WARNING_OK)
         else:
             # search first step which is not validated (False)
-            # Todo : to optimize if possible
-            for step, value in enumerate(self.step_create_code_validated, start=1):
-                if not value:
-                    break
+            step = self.step_create_code_validated.index(False) + 1
             self.sb_create_info.showMessage(constant.MESSAGE_STATUS_INFO.format(step, constant.DICT_STEP[step]))
             self.sb_create_info.setStyleSheet(constant_qss.SB_CREATE_INFO_NOK)
             self.sb_create_warning.showMessage(constant.MESSAGE_STATUS_WARNING_NOK)

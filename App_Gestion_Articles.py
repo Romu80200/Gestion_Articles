@@ -37,6 +37,7 @@ class MainWindow(QWidget):
         self.tab_modify = QWidget()
         self.tab_overview = QWidget()  # Maybe
         self.tab_admin = QWidget()
+        self.tab_widget.tabBarClicked.connect(self.init_tabs)
         # Add Tab
         self.tab_widget.addTab(self.tab_home, "Accueil")
         self.tab_widget.addTab(self.tab_search, "Rechercher un Code Article")
@@ -50,6 +51,9 @@ class MainWindow(QWidget):
         # Add TabWidget to Widget
         self.main_layout.addWidget(self.tab_widget)
         self.setLayout(self.main_layout)
+
+    def init_tabs(self):
+        self.tab_create.init_formular_create()
 
 
 app = QApplication([])

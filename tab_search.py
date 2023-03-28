@@ -74,8 +74,8 @@ class TabSearch(QWidget):
         self.frm_search_by_step.layout.addWidget(self.lbl_element)
         self.frm_search_by_step.layout.addWidget(self.cbb_element)
         self.frm_search_by_step.layout.addWidget(self.btn_search_by_step)
-        self.frm_search_article.layout.addWidget(self.sb_info, 4, 1, 1, 2)
-        self.frm_search_article.layout.addWidget(self.sb_warning, 5, 1, 1, 2)
+        self.frm_search_article.layout.addWidget(self.sb_info, 4, 0, 1, 2)
+        self.frm_search_article.layout.addWidget(self.sb_warning, 5, 0, 1, 2)
         self.main_layout.addWidget(self.lbl_title_search)
         self.main_layout.addWidget(self.frm_search_article)
         self.setLayout(self.main_layout)
@@ -87,12 +87,14 @@ class TabSearch(QWidget):
         self.lbl_title_search.setAlignment(Qt.AlignCenter)
         self.lbl_title_search.setMaximumHeight(50)
         # lbl_frame_search
-        self.lbl_frame_search.setText("Choisissez votre mode de recherche")
+        self.lbl_frame_search.setText("Choisissez le mode de recherche")
         self.lbl_frame_search.setObjectName("lbl_frame_create")
         self.lbl_frame_search.setMaximumHeight(50)
         self.lbl_frame_search.setAlignment(Qt.AlignCenter)
         # rbtn_search_code
-        self.rbtn_search_code.setText("Recherche un Article par son code")
+        self.rbtn_search_code.setText("Recherche par code")
+        # frm_search_code
+        self.frm_search_code.setEnabled(False)
         # lbl_search_code
         self.lbl_search_code.setText("Saisir un code Article")
         # le_search_code
@@ -100,7 +102,9 @@ class TabSearch(QWidget):
         # btn_search_code
         self.btn_search_code.setText("Rechercher")
         # rbtn_search_reference
-        self.rbtn_search_reference.setText("Recherche un Article par sa référence ou sa Désignation")
+        self.rbtn_search_reference.setText("Recherche par Référence ou Désignation")
+        # frm_search_reference
+        self.frm_search_reference.setEnabled(False)
         # lbl_search_reference
         self.lbl_search_reference.setText("Saisir une référence ou une désignation")
         # le_search_reference
@@ -108,7 +112,9 @@ class TabSearch(QWidget):
         # btn_search_refernce
         self.btn_search_reference.setText("Rechercher")
         # rbtn_search_by_step
-        self.rbtn_search_by_step.setText("Recherche un Aricle par étape")
+        self.rbtn_search_by_step.setText("Recherche par étape")
+        # frm_search_by_step
+        self.frm_search_by_step.setEnabled(False)
         # lbl machine
         self.lbl_machine.setText("Choisir la machine :")
         # lbl_family
@@ -121,7 +127,38 @@ class TabSearch(QWidget):
         self.sb_info.showMessage("INFO | Choisir un mode de recherche")
 
     def init_tab_search_connections(self):
-        pass
+        self.rbtn_search_code.toggled.connect(self.actions_when_rbtn_changed)
+        self.rbtn_search_reference.toggled.connect(self.actions_when_rbtn_changed)
+        self.rbtn_search_by_step.toggled.connect(self.actions_when_rbtn_changed)
+        self.cbb_family.currentTextChanged.connect(self.cbb_family_changed)
+        # self.frm_search_code.mouseDoubleClickEvent.connect(self.rbtn_search_code_checked)
 
     def init_formular_search(self):
-        pass
+        self.le_search_code.clear()
+        self.le_search_reference.clear()
+        self.cbb_machine.clear()
+        self.cbb_family.clear()
+        for key in config_articles.config["machine"].keys():
+            self.cbb_machine.addItem(key)
+        for key in config_articles.config["famille"].keys():
+            self.cbb_family.addItem(key)
+        self.cbb_element.clear()
+
+    def actions_when_rbtn_changed(self):
+        self.init_formular_search()
+        self.set_enabled_frame()
+
+    def set_enabled_frame(self):
+        """ enabled frame if radioButton is checked """
+        self.frm_search_code.setEnabled(self.rbtn_search_code.isChecked())
+        self.frm_search_reference.setEnabled(self.rbtn_search_reference.isChecked())
+        self.frm_search_by_step.setEnabled(self.rbtn_search_by_step.isChecked())
+
+    def cbb_family_changed(self):
+        self.cbb_element.clear()
+        current_text = self.cbb_family.currentText()
+        for key in config_articles.config["element"][current_text].keys():
+            self.cbb_element.addItem(key)
+
+    def rbtn_search_code_checked(self):
+        self.rbtn_search_code.setChecked(True)
